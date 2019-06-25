@@ -1,6 +1,11 @@
 {
   "name": "root",
   "private": true,
+  "scripts": {
+    "build": "lerna run build",
+    "build-v3": "lerna run build --scope=v3",
+    "build-v4": "lerna run build --scope=v4"
+  },
   "devDependencies": {
     "lerna": "3.15.0"
   }

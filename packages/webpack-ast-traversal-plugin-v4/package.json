@@ -3,7 +3,11 @@
   "version": "0.0.0",
   "description": "> TODO: description",
   "keywords": [],
-  "author": "Udi Talias <udi.talias@gmail.com>",
+  "author": {
+    "name": "Udi Talias",
+    "email": "udi.talias@gmail.com",
+    "url": "https://github.com/uditalias"
+  },
   "license": "ISC",
   "main": "lib/index.js",
   "directories": {
@@ -14,7 +18,7 @@
     "lib"
   ],
   "publishConfig": {
-    "access": "public"
+    "access": "restricted"
   },
   "repository": {
     "type": "git",

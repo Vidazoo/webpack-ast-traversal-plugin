@@ -1,2 +1,1 @@
-const recast = require("recast");
-const estraverse = require("estraverse");
+exports.BaseAstTraversalPlugin = require("./BaseAstTraversalPlugin");

@@ -1,0 +1,21 @@
+{
+  "name": "v3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "NODE_ENV=production webpack -p --optimize-minimize"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Udi Talias",
+    "email": "udi.talias@gmail.com",
+    "url": "https://github.com/uditalias"
+  },
+  "private": true,
+  "license": "ISC",
+  "devDependencies": {
+    "@vidazoo/webpack-ast-traversal-plugin-v3": "^0.0.0",
+    "webpack": "3.12.0"
+  }
+}
