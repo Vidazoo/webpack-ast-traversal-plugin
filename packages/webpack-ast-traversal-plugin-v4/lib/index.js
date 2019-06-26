@@ -9,7 +9,7 @@ class WebpackAstTraversalPlugin extends BaseAstTraversalPlugin {
                 compilation
                     .hooks
                     .optimizeChunkAssets
-                    .tapAsync(this.constructor.name, this._optimaizeChunkAssest.bind(this, compilation)));
+                    .tapAsync(this.constructor.name, this._optimizeChunkAsset.bind(this, compilation)));
     }
 }
 

@@ -20,7 +20,7 @@ class BaseAstTraversalPlugin {
         this.options = defaults(options);
     }
 
-    _optimaizeChunkAssest(compilation, chunks, callback) {
+    _optimizeChunkAsset(compilation, chunks, callback) {
         const files = [];
 
         chunks.forEach((chunk) => chunk.files.forEach((file) => files.push(file)));

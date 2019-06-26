@@ -5,7 +5,7 @@ class WebpackAstTraversalPlugin extends BaseAstTraversalPlugin {
         compiler
             .plugin("compilation", (compilation) =>
                 compilation
-                    .plugin("optimize-chunk-assets", this._optimaizeChunkAssest.bind(this, compilation)));
+                    .plugin("optimize-chunk-assets", this._optimizeChunkAsset.bind(this, compilation)));
     }
 }
 
