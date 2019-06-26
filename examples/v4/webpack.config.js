@@ -1,7 +1,7 @@
-const webpack = require("webpack");
 const path = require("path");
 const context = path.resolve("src");
 const WebpackAstTraversalPlugin = require("@vidazoo/webpack-ast-traversal-plugin-v4");
+const JavaScriptObfuscator = require("webpack-obfuscator");
 
 module.exports = {
     mode: "production",
@@ -16,6 +16,10 @@ module.exports = {
         filename: "index.js"
     },
     plugins: [
-        new WebpackAstTraversalPlugin()
+        new WebpackAstTraversalPlugin(),
+
+        new JavaScriptObfuscator({
+            rotateUnicodeArray: true
+        })
     ]
 };

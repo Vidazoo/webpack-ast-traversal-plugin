@@ -2,7 +2,14 @@ const { BaseAstTraversalPlugin } = require("@vidazoo/webpack-ast-traversal-plugi
 
 class WebpackAstTraversalPlugin extends BaseAstTraversalPlugin {
     apply(compiler) {
-        compiler.hooks.emit.tap("WebpackAstTraversalPlugin", this._onEmit.bind(this));
+        compiler
+            .hooks
+            .compilation
+            .tap(this.constructor.name, (compilation) =>
+                compilation
+                    .hooks
+                    .optimizeChunkAssets
+                    .tapAsync(this.constructor.name, this._optimaizeChunkAssest.bind(this, compilation)));
     }
 }
 

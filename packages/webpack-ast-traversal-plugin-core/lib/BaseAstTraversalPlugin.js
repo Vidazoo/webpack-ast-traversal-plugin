@@ -1,36 +1,62 @@
 const recast = require("recast");
 const estraverse = require("estraverse");
+const { RawSource } = require("webpack-sources");
+const expressionHandlers = require("./expressionHandlers");
+const { isJavaScriptAsset } = require("./utils");
+
+function defaults(options) {
+    return Object.assign({}, {
+        ignoreComment: "@ast-traversal-ignore",
+        removeCallExpressions: [
+            "console.*",
+            "alert"
+        ]
+    }, options);
+}
 
 class BaseAstTraversalPlugin {
+
     constructor(options) {
-        this.options = options;
+        this.options = defaults(options);
     }
 
-    _onEmit(compilation, callback) {
-        compilation.chunks.forEach((chunk) => {
-            chunk.files.forEach(this._handleCompilationAsset.bind(this));
-        });
+    _optimaizeChunkAssest(compilation, chunks, callback) {
+        const files = [];
 
-        callback && callback();
+        chunks.forEach((chunk) => chunk.files.forEach((file) => files.push(file)));
+
+        compilation.additionalChunkAssets.forEach((file) => files.push(file));
+
+        files.forEach(this._handleCompilationAsset.bind(this, compilation));
+
+        callback();
     }
 
     _handleCompilationAsset(compilation, filename) {
-        let source = compilation.assets[filename].source();
+        if (!isJavaScriptAsset(filename)) return;
 
-        //source =  modify source here
+        const self = this
+            , source = compilation.assets[filename].source()
+            , sourceAst = recast.parse(source);
 
-        compilation.assets[filename] = this._createCompilationAsset(source);
+        let handler;
+
+        const traversedAst = estraverse.replace(sourceAst.program, {
+            enter: function (node, parent) {
+                if (
+                    (handler = expressionHandlers[node.type]) &&
+                    handler.shouldRemoveNode(node, parent, self.options)
+                ) {
+                    this.remove();
+                }
+            }
+        });
+
+        this._astToCompilationAsset(traversedAst, compilation, filename);
     }
 
-    _createCompilationAsset(source) {
-        return {
-            source: function () {
-                return source;
-            },
-            size: function () {
-                return source.length;
-            }
-        };
+    _astToCompilationAsset(ast, compilation, filename) {
+        compilation.assets[filename] = new RawSource(recast.print(ast).code);
     }
 }
 

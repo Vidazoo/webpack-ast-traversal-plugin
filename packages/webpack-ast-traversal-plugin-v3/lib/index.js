@@ -2,7 +2,10 @@ const { BaseAstTraversalPlugin } = require("@vidazoo/webpack-ast-traversal-plugi
 
 class WebpackAstTraversalPlugin extends BaseAstTraversalPlugin {
     apply(compiler) {
-        compiler.plugin("emit", this._onEmit.bind(this));
+        compiler
+            .plugin("compilation", (compilation) =>
+                compilation
+                    .plugin("optimize-chunk-assets", this._optimaizeChunkAssest.bind(this, compilation)));
     }
 }
 
