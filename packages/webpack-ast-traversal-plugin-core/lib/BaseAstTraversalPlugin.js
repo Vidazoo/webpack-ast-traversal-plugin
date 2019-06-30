@@ -1,15 +1,15 @@
 const recast = require("recast");
 const estraverse = require("estraverse");
 const { RawSource } = require("webpack-sources");
-const expressionHandlers = require("./expressionHandlers");
+const expressionNodeHandlers = require("./expressionNodeHandlers");
 const { isJavaScriptAsset } = require("./utils");
 
 function defaults(options) {
     return Object.assign({}, {
         ignoreComment: "@ast-traversal-ignore",
-        removeCallExpressions: [
-            "console.*",
-            "alert"
+        callExpressions: [
+            { identifier: "console.*", action: "remove" },
+            { identifier: "alert", action: "remove" }
         ]
     }, options);
 }
@@ -20,7 +20,11 @@ class BaseAstTraversalPlugin {
         this.options = defaults(options);
     }
 
-    _optimizeChunkAsset(compilation, chunks, callback) {
+    apply(compiler) {
+        throw new TypeError(`[${this.constructor.name}] apply method not implemented.`);
+    }
+
+    _optimizeChunkAssets(compilation, chunks, callback) {
         const files = [];
 
         chunks.forEach((chunk) => chunk.files.forEach((file) => files.push(file)));
@@ -35,7 +39,7 @@ class BaseAstTraversalPlugin {
     _handleCompilationAsset(compilation, filename) {
         if (!isJavaScriptAsset(filename)) return;
 
-        const self = this
+        const options = this.options
             , source = compilation.assets[filename].source()
             , sourceAst = recast.parse(source);
 
@@ -44,8 +48,8 @@ class BaseAstTraversalPlugin {
         const traversedAst = estraverse.replace(sourceAst.program, {
             enter: function (node, parent) {
                 if (
-                    (handler = expressionHandlers[node.type]) &&
-                    handler.shouldRemoveNode(node, parent, self.options)
+                    (handler = expressionNodeHandlers[node.type]) &&
+                    handler.shouldRemoveNode(node, parent, options)
                 ) {
                     this.remove();
                 }
