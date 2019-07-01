@@ -3,13 +3,15 @@ const estraverse = require("estraverse");
 const { RawSource } = require("webpack-sources");
 const expressionNodeHandlers = require("./expressionNodeHandlers");
 const { isJavaScriptAsset } = require("./utils");
+const actionType = require("./actionType");
+const ResultLogger = require("./ResultLogger");
 
 function defaults(options) {
     return Object.assign({}, {
         ignoreComment: "@ast-traversal-ignore",
         callExpressions: [
-            { identifier: "console.*", action: "remove" },
-            { identifier: "alert", action: "remove" }
+            { identifier: "*.console.*", action: actionType.REMOVE },
+            { identifier: "*.alert", action: actionType.REMOVE }
         ]
     }, options);
 }
@@ -27,13 +29,23 @@ class BaseAstTraversalPlugin {
     _optimizeChunkAssets(compilation, chunks, callback) {
         const files = [];
 
-        chunks.forEach((chunk) => chunk.files.forEach((file) => files.push(file)));
+        chunks.forEach((chunk) => chunk.files.forEach(files.push));
 
-        compilation.additionalChunkAssets.forEach((file) => files.push(file));
+        compilation.additionalChunkAssets.forEach(files.push);
 
-        files.forEach(this._handleCompilationAsset.bind(this, compilation));
+        const result = ResultLogger.createWithCallback(callback);
 
-        callback();
+        files.forEach((filename) => {
+            const { removals, changes, errors, warnings } = this._handleCompilationAsset(compilation, filename);
+
+            result
+                .withErrors(errors)
+                .withWarnings(warnings)
+                .withRemovals(removals)
+                .withChanges(changes);
+        });
+
+        result.flush();
     }
 
     _handleCompilationAsset(compilation, filename) {
@@ -44,19 +56,39 @@ class BaseAstTraversalPlugin {
             , sourceAst = recast.parse(source);
 
         let handler;
+        const removals = []
+            , changes = []
+            , errors = []
+            , warnings = [];
 
         const traversedAst = estraverse.replace(sourceAst.program, {
             enter: function (node, parent) {
-                if (
-                    (handler = expressionNodeHandlers[node.type]) &&
-                    handler.shouldRemoveNode(node, parent, options)
-                ) {
-                    this.remove();
+                if ((handler = expressionNodeHandlers[node.type])) {
+
+                    const { action, result } = handler.handle(node, parent, options);
+
+                    switch (action) {
+                        case actionType.REMOVE:
+                            this.remove();
+                            removals.push({ filename, result, node });
+                            break;
+                        case actionType.CHANGE:
+                            changes.push({ filename, result, node });
+                            break;
+                        case actionType.WARN:
+                            errors.push({ filename, result, node });
+                            break;
+                        case actionType.ERROR:
+                            warnings.push({ filename, result, node });
+                            break;
+                    }
                 }
             }
         });
 
         this._astToCompilationAsset(traversedAst, compilation, filename);
+
+        return { removals, errors, warnings };
     }
 
     _astToCompilationAsset(ast, compilation, filename) {

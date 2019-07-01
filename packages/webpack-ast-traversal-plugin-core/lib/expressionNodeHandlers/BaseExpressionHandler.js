@@ -1,6 +1,20 @@
+const actionType = require("../actionType");
+
 class BaseExpressionNodeHandler {
 
-    shouldIgnoreNodeByComment(node, ignoreComment) {
+    handle(node, parent, options) {
+        if (this._shouldIgnoreNodeByIgnoreComment(node, options.ignoreComment)) {
+            return this._createResponse(actionType.IGNORE, null);
+        }
+
+        return this._handle(node, parent, options);
+    }
+
+    _handle(node, parent, options) {
+        throw new TypeError(`[${this.constructor.name}] _handle method not implemented.`);
+    }
+
+    _shouldIgnoreNodeByIgnoreComment(node, ignoreComment) {
         if (node.comments) {
             return !!node.comments.find((comment) => {
                 return comment.leading && comment.value.trim() === ignoreComment;
@@ -8,6 +22,10 @@ class BaseExpressionNodeHandler {
         }
 
         return false;
+    }
+
+    _createResponse(action, result) {
+        return { action, result };
     }
 }
 
