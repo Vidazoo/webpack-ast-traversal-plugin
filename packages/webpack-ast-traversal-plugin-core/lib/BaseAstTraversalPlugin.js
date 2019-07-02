@@ -88,7 +88,7 @@ class BaseAstTraversalPlugin {
 
         this._astToCompilationAsset(traversedAst, compilation, filename);
 
-        return { removals, errors, warnings };
+        return { removals, changes, errors, warnings };
     }
 
     _astToCompilationAsset(ast, compilation, filename) {
