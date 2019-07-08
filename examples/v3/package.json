@@ -1,7 +1,7 @@
 {
   "name": "v3",
   "version": "1.0.0",
-  "description": "",
+  "description": "webpack 3 example",
   "main": "index.js",
   "scripts": {
     "build": "NODE_ENV=production webpack -p --optimize-minimize"
@@ -13,7 +13,7 @@
     "url": "https://github.com/uditalias"
   },
   "private": true,
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@vidazoo/webpack-ast-traversal-plugin-v3": "^0.0.0",
     "webpack": "3.12.0",

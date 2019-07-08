@@ -1,5 +1,5 @@
-const BaseExpressionNodeHandler = require("./BaseExpressionNodeHandler");
-const actionType = require("../actionType");
+const BaseExpressionNodeHandler = require("./BaseExpressionNodeHandler")
+    , utils = require("../utils");
 
 class CallExpressionNodeHandler extends BaseExpressionNodeHandler {
 
@@ -8,25 +8,69 @@ class CallExpressionNodeHandler extends BaseExpressionNodeHandler {
     }
 
     _handle(node, parent, options) {
+        const path = this._resolvePath(node)
+            , results = [];
 
         let expression;
         for (let i = 0, len = options.callExpressions.length; i < len; i++) {
             expression = options.callExpressions[i];
-            identifier = expression.identifier.split(".");
 
-            const path = [];
-            
+            if (this._isPathMatchToIdendifier(path, expression.identifier)) {
+                results.push(
+                    this._createResponse(expression.action || options.action, {message: `expression identifier found - "${path.join(".")}" (${expression.identifier})`})
+                );
+            }
         }
 
-        // TODO: implement call expression handler
+        return results;
+    }
 
-        // && (node.callee.object && node.callee.object.name === 'console')
-        // && (node.callee.property /* && shouldRemove(node.callee.property.name) */))
+    _resolvePath(node, path = []) {
+        if (node) {
+            switch (node.type) {
+                case "CallExpression":
+                    this._resolvePath(node.callee, path);
+                    break;
+                case "MemberExpression":
+                    this._resolvePath(node.object, path);
+                    this._resolvePath(node.property, path);
+                    break;
+                case "Identifier":
+                    path.push(node.name);
+                    break;
+                case "Literal":
+                    path.push(node.value);
+                    break;
+            }
+        }
 
-        // if (parent.type === "LogicalExpression") {
-        //     parent.operator = "";
-        // }
+        return path;
+    }
 
+    _isPathMatchToIdendifier(path, identifier) {
+        path = utils.clone(path).join(".");
+
+        const anyPrefix = identifier.startsWith("*");
+        const anySuffix = identifier.endsWith("*");
+
+        identifier = identifier
+            .split(".")
+            .filter(id => id !== "*")
+            .join(".");
+
+        const indexOfIdentifier = path.indexOf(identifier);
+
+        return !(
+
+            // if the identifier is not present in the path
+            indexOfIdentifier < 0 ||
+
+            // if path must start with identifier
+            indexOfIdentifier > 0 && !anyPrefix ||
+
+            // if path must end with identifier
+            !path.endsWith(identifier) && !anySuffix
+        );
     }
 }
 

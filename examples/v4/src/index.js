@@ -5,7 +5,7 @@ class Logger {
     }
 
     error() {
-        console.error.apply(console, arguments);
+        window.console.error.apply(console, arguments);
     }
 
     warn() {

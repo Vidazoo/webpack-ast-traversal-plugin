@@ -1,7 +1,7 @@
 {
   "name": "v4",
   "version": "1.0.0",
-  "description": "",
+  "description": "webpack 4 example",
   "main": "index.js",
   "scripts": {
     "build": "NODE_ENV=production webpack"
@@ -13,7 +13,7 @@
     "url": "https://github.com/uditalias"
   },
   "private": true,
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@vidazoo/webpack-ast-traversal-plugin-v4": "^0.0.0",
     "webpack": "4.35.0",

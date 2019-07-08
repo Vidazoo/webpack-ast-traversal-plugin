@@ -3,8 +3,11 @@ const actionType = require("../actionType");
 class BaseExpressionNodeHandler {
 
     handle(node, parent, options) {
-        if (this._shouldIgnoreNodeByIgnoreComment(node, options.ignoreComment)) {
-            return this._createResponse(actionType.IGNORE, null);
+        if (
+            this._shouldIgnoreNodeByIgnoreComment(node, options.ignoreComment) ||
+            this._shouldIgnoreNodeByIgnoreComment(parent, options.ignoreComment)
+        ) {
+            return [this._createResponse(actionType.IGNORE, null)];
         }
 
         return this._handle(node, parent, options);
@@ -25,7 +28,7 @@ class BaseExpressionNodeHandler {
     }
 
     _createResponse(action, result) {
-        return { action, result };
+        return {action, result};
     }
 }
 

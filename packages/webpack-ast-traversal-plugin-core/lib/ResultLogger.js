@@ -1,7 +1,8 @@
-const errorFormatter = require("./formatters/errorFormatter");
-const warningFormatter = require("./formatters/warningFormatter");
-const changeFormatter = require("./formatters/changeFormatter");
-const utils = require("./utils");
+const errorFormatter = require("./formatters/errorFormatter")
+    , warningFormatter = require("./formatters/warningFormatter")
+    , removalFormatter = require("./formatters/removalFormatter")
+    , utils = require("./utils")
+    , log = require("webpack-log");
 
 class ResultLogger {
 
@@ -10,7 +11,7 @@ class ResultLogger {
         this._errors = [];
         this._warnings = [];
         this._removals = [];
-        this._changes = [];
+        this._logger = log({name: "AST Traversal", level: "info"});
     }
 
     static createWithCallback(callback) {
@@ -36,36 +37,33 @@ class ResultLogger {
     withRemovals(removals = []) {
         removals = utils.ensureArray(removals);
 
-        this._removals.push(...warnings);
+        this._removals.push(...removals);
 
         return this;
     }
 
-    withChanges(changes = []) {
-        changes = utils.ensureArray(changes);
+    flushOutput() {
 
-        this._changes.push(...changes);
-
-        return this;
-    }
-
-    flush() {
-
-        if (this._changes.length) {
-            this._changes.map((change) => console.log(changeFormatter(change)));
-        }
+        let error;
 
         if (this._warnings.length) {
-            this._warnings.map((warning) => console.warn(warningFormatter(warning)));
+            this._warnings.map((warning) => this._logger.warn(warningFormatter(warning)));
+            this._warnings.length = 0;
         }
 
-        let optionalError;
+        if (this._removals.length) {
+            this._removals.map((removal) => this._logger.info(removalFormatter(removal)));
+            this._removals.length = 0;
+        }
 
         if (this._errors.length) {
-            optionalError = new Error(this._errors.map(errorFormatter).join("\r\n"));
+            this._errors.map((error) => this._logger.error(errorFormatter(error)));
+            this._errors.length = 0;
+
+            error = new Error();
         }
 
-        this._callback(optionalError);
+        this._callback(error);
     }
 }
 

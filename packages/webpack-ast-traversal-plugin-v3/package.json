@@ -8,17 +8,16 @@
     "email": "udi.talias@gmail.com",
     "url": "https://github.com/uditalias"
   },
-  "license": "ISC",
+  "license": "MIT",
   "main": "lib/index.js",
   "directories": {
-    "lib": "lib",
-    "test": "__tests__"
+    "lib": "lib"
   },
   "files": [
     "lib"
   ],
   "publishConfig": {
-    "access": "restricted"
+    "access": "public"
   },
   "repository": {
     "type": "git",
