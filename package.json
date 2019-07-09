@@ -5,7 +5,9 @@
     "build": "lerna run build --parallel",
     "build-v3": "lerna run build --scope=v3 --stream",
     "build-v4": "lerna run build --scope=v4 --stream",
-    "test": "lerna run test --stream"
+    "test": "lerna run test --stream",
+    "test:watch": "lerna run test:watch --stream",
+    "release": "npm run test && lerna publish"
   },
   "devDependencies": {
     "lerna": "3.15.0"

@@ -25,7 +25,8 @@
     "url": "git+https://github.com/Vidazoo/webpack-ast-traversal-plugin.git"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "bugs": {
     "url": "https://github.com/Vidazoo/webpack-ast-traversal-plugin/issues"

@@ -12,7 +12,7 @@ function defaults(options) {
         action: actionType.WARN,
         callExpressions: [
             {identifier: "*.console.*", action: actionType.WARN},
-            {identifier: "*.alert.*", action: actionType.WARN}
+            {identifier: "*.alert.*", action: actionType.ERROR}
         ]
     }, options);
 }
@@ -33,7 +33,6 @@ class BaseAstTraversalPlugin {
 
     _optimizeChunkAssets(compilation, chunks, callback) {
         const files = [];
-
 
         chunks.forEach((chunk) => {
             chunk.files.forEach((file) => files.push(file));
