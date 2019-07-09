@@ -52,7 +52,7 @@ module.exports = {
 
 
 |Name|Type|Description|  
-|:--:|:--:|:-----:|:----------|  
+|-|-|-|-|  
 |**`ignoreComment`**|`{String}`|The ignore comment used to ignore ast nodes|  
 |**`action`**|`ignore|remove|warn|error`|The default action|  
 |**`callExpressions`**|`{Array}`|The default action|  
