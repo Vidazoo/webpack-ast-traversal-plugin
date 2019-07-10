@@ -22,7 +22,7 @@ class CallExpressionNodeHandler extends BaseExpressionNodeHandler {
             if (this._isPathMatchToIdendifier(path, expression.identifier)) {
                 const response = this._createResponse(
                     expression.action || options.action || actionType.WARN,
-                    {message: `"${expression.identifier}" found - Expression: "${recast.prettyPrint(node)}"`}
+                    {message: `"${expression.identifier}" found - Expression: "${recast.prettyPrint(node).code}"`}
                 );
 
                 results.push(response);
