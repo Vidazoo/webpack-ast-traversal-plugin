@@ -50,9 +50,30 @@ module.exports = {
 
 <h2 align="center">Options</h2>
 
+**Global Options**
 
-| Name | Type | Description |
-| - | - | - |
-| **`ignoreComment`** | `{String}` | The ignore comment used to ignore AST nodes |
-| **`action`** | `ignore|remove|warn|error`| The default action for all expressions |
-| **`callExpressions`** | `{Array}`| List of call expression patterns and action to take |
+| Name | Type | Default | Description |
+| - | - | - | - |
+| **`ignoreComment`** | `{String}` | `@ast-traversal-ignore` | The ignore comment used to ignore AST nodes |
+| **`action`** | `{String}`| `warn` | The default action for all expressions |
+| **`callExpressions`** | `{Array}`| List of call expression patterns and action to take, see below for options |
+
+
+**Call Expression Options**
+
+Each item in the `callExpressions` option:
+
+
+| Name | Type | Required | Default | Description |
+| - | - | - | - | - |
+| **`identifier`** | `{String}`| `true` | None | Call expression identifier pattern |
+| **`action`** | `{String}`| `false` | `warn` | Action to take |
+
+
+**Action**
+
+Each action can be one of:
+
+* `remove` - Remove any matched nodes.
+* `warn` - Warn about matched nodes.
+* `error` - Throw error and stop webpack build on matched nodes.

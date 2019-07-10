@@ -1,4 +1,5 @@
 const BaseExpressionNodeHandler = require("./BaseExpressionNodeHandler")
+    , actionType = require("../actionType")
     , utils = require("../utils");
 
 class CallExpressionNodeHandler extends BaseExpressionNodeHandler {
@@ -12,13 +13,18 @@ class CallExpressionNodeHandler extends BaseExpressionNodeHandler {
             , results = [];
 
         let expression;
+
         for (let i = 0, len = options.callExpressions.length; i < len; i++) {
+
             expression = options.callExpressions[i];
 
             if (this._isPathMatchToIdendifier(path, expression.identifier)) {
-                results.push(
-                    this._createResponse(expression.action || options.action, {message: `expression identifier found - "${path.join(".")}" (${expression.identifier})`})
+                const response = this._createResponse(
+                    expression.action || options.action || actionType.WARN,
+                    {message: `expression identifier found - "${path.join(".")}" (${expression.identifier})`}
                 );
+
+                results.push(response);
             }
         }
 
