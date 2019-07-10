@@ -51,8 +51,8 @@ module.exports = {
 <h2 align="center">Options</h2>
 
 
-| Name | Type | Description |  
-| - | - | - | - |  
-| **`ignoreComment`** | `{String}` | The ignore comment used to ignore AST nodes |  
-| **`action`** | `ignore|remove|warn|error`| The default action for all expressions |  
-| **`callExpressions`** | `{Array}`| List of call expression patterns and action to take |  
+| Name | Type | Description |
+| - | - | - |
+| **`ignoreComment`** | `{String}` | The ignore comment used to ignore AST nodes |
+| **`action`** | `ignore|remove|warn|error`| The default action for all expressions |
+| **`callExpressions`** | `{Array}`| List of call expression patterns and action to take |
