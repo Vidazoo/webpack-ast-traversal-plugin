@@ -1,6 +1,6 @@
 {
   "name": "@vidazoo/webpack-ast-traversal-plugin-v4",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "description": "Plugin that traverse the AST of your code to find specific call expressions.",
   "keywords": [
     "webpack",
@@ -34,6 +34,6 @@
   },
   "homepage": "https://github.com/Vidazoo/webpack-ast-traversal-plugin#readme",
   "dependencies": {
-    "@vidazoo/webpack-ast-traversal-plugin-core": "^1.0.0-alpha.1"
+    "@vidazoo/webpack-ast-traversal-plugin-core": "^1.0.0-alpha.2"
   }
 }
