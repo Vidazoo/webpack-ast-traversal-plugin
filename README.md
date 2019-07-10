@@ -4,7 +4,7 @@
       src="https://webpack.js.org/assets/icon-square-big.svg">
   </a>
   <h1>Webpack AST Traversal Plugin</h1>
-  <p>Plugin that traverse the AST of your code to find specific call expressions</p>
+  <p>🌲 Plugin that traverse the AST of your code to find specific call expressions</p>
 </div>
 <h2 align="center">Install for Webpack 3.x</h2>
 
