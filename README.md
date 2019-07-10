@@ -79,7 +79,7 @@ Each action can be one of:
 * `error` - Throw error and stop webpack build on matched nodes.
 
 
-<h2>Options</h2>
+<h2>Example</h2>
 
 ```javascript
 const WebpackAstTraversalPlugin = require("@vidazoo/webpack-ast-traversal-plugin-v4");
