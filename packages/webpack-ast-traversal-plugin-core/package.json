@@ -1,8 +1,13 @@
 {
   "name": "@vidazoo/webpack-ast-traversal-plugin-core",
   "version": "0.0.0",
-  "description": "> TODO: description",
-  "keywords": [],
+  "description": "Plugin that traverse the AST of your code to find specific call expressions.",
+  "keywords": [
+    "webpack",
+    "plugin",
+    "ast",
+    "traversal"
+  ],
   "author": {
     "name": "Udi Talias",
     "email": "udi.talias@gmail.com",
