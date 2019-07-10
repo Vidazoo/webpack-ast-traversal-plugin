@@ -1,4 +1,4 @@
-const { BaseAstTraversalPlugin } = require("@vidazoo/webpack-ast-traversal-plugin-core");
+const {BaseAstTraversalPlugin} = require("@vidazoo/webpack-ast-traversal-plugin-core");
 
 class WebpackAstTraversalPlugin extends BaseAstTraversalPlugin {
     apply(compiler) {

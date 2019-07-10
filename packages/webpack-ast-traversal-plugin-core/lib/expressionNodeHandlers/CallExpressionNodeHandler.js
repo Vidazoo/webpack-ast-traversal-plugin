@@ -1,5 +1,6 @@
 const BaseExpressionNodeHandler = require("./BaseExpressionNodeHandler")
     , actionType = require("../actionType")
+    , recast = require("recast")
     , utils = require("../utils");
 
 class CallExpressionNodeHandler extends BaseExpressionNodeHandler {
@@ -21,7 +22,7 @@ class CallExpressionNodeHandler extends BaseExpressionNodeHandler {
             if (this._isPathMatchToIdendifier(path, expression.identifier)) {
                 const response = this._createResponse(
                     expression.action || options.action || actionType.WARN,
-                    {message: `expression identifier found - "${path.join(".")}" (${expression.identifier})`}
+                    {message: `"${expression.identifier}" found - Expression: "${recast.prettyPrint(node)}"`}
                 );
 
                 results.push(response);

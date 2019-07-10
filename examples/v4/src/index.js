@@ -1,3 +1,5 @@
+const {log} = require("./common");
+
 class Logger {
     log() {
         // @ast-traversal-ignore
@@ -18,3 +20,5 @@ const logger = new Logger();
 logger.log("This is a test log");
 logger.error("This is a test error");
 logger.warn("This is a test warning");
+
+log(123);

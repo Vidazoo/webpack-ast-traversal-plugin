@@ -34,9 +34,7 @@ class BaseAstTraversalPlugin {
     _optimizeChunkAssets(compilation, chunks, callback) {
         const files = [];
 
-        chunks.forEach((chunk) => {
-            chunk.files.forEach((file) => files.push(file));
-        });
+        chunks.forEach((chunk) => chunk.files.forEach((file) => files.push(file)));
 
         compilation.additionalChunkAssets.forEach((file) => files.push(file));
 

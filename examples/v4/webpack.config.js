@@ -13,7 +13,7 @@ module.exports = {
     },
     output: {
         path: path.resolve("build"),
-        filename: "index.js"
+        filename: "bundle.js"
     },
     plugins: [
         new WebpackAstTraversalPlugin(),
