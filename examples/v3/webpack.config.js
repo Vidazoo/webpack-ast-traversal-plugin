@@ -17,7 +17,12 @@ module.exports = {
         filename: "build/[name].js"
     },
     plugins: [
-        new WebpackAstTraversalPlugin(),
+        new WebpackAstTraversalPlugin({
+            callExpressions: [
+                { identifier: "*.console.*", action: WebpackAstTraversalPlugin.ActionType.WARN },
+                { identifier: "*.alert.*", action: WebpackAstTraversalPlugin.ActionType.ERROR }
+            ]
+        }),
 
         new JavaScriptObfuscator({
             compact: true,

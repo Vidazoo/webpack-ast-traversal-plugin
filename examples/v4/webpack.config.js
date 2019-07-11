@@ -16,7 +16,12 @@ module.exports = {
         filename: "bundle.js"
     },
     plugins: [
-        new WebpackAstTraversalPlugin(),
+        new WebpackAstTraversalPlugin({
+            callExpressions: [
+                { identifier: "*.console.*", action: WebpackAstTraversalPlugin.ActionType.WARN },
+                { identifier: "*.alert.*", action: WebpackAstTraversalPlugin.ActionType.ERROR }
+            ]
+        }),
 
         new JavaScriptObfuscator({
             rotateUnicodeArray: true

@@ -10,10 +10,7 @@ function defaults(options) {
     return Object.assign({}, {
         ignoreComment: "@ast-traversal-ignore",
         action: actionType.WARN,
-        callExpressions: [
-            {identifier: "*.console.*", action: actionType.WARN},
-            {identifier: "*.alert.*", action: actionType.ERROR}
-        ]
+        callExpressions: []
     }, options);
 }
 
