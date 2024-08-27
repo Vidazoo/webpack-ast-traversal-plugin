@@ -16,7 +16,7 @@
   "license": "MIT",
   "devDependencies": {
     "@vidazoo/webpack-ast-traversal-plugin-v3": "^1.0.0-alpha.3",
-    "webpack": "3.12.0",
+    "webpack": "5.94.0",
     "webpack-obfuscator": "0.16.0"
   }
 }
